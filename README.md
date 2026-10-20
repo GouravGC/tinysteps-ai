@@ -1,68 +1,94 @@
 # SlothSort AI 🦥
 
-A local-first file organizer that uses open-weight AI to suggest file categories and clearer filenames. It scans a folder, prepares a reviewable plan, and only moves files after explicit approval.
+**AI-Powered, Local-First File Organizer**
 
-## Features
+SlothSort AI scans a selected folder, uses AI to suggest meaningful file categories and filenames, and lets you review changes before applying them. It supports local AI through Ollama and cloud AI through OpenRouter.
 
-- **Two AI providers:** Gemma through local Ollama, or OpenRouter for hosted/cloud use.
-- **Privacy choice:** local inference is the default. Cloud mode requires an explicit in-app confirmation before snippets are sent.
-- **Review before action:** edit suggested categories and filenames before applying.
-- **Safe file handling:** scans only direct files in the selected folder, skips symlinks, preserves extensions, avoids overwriting files, and never deletes files.
-- **Undo:** records moves for a best-effort restore.
-- **Engineering:** pytest suite, GitHub Actions CI, and Dockerfile.
+## 🚀 Live Demo
 
-## Requirements
+**[Launch SlothSort AI](https://slothsort-ai-latest.onrender.com/)**
 
-- Python 3.11
-- Ollama for local mode
-- A downloaded Ollama model (default: `gemma3:4b`)
-- OpenRouter API key only if using cloud mode
+> Note: The hosted demo runs remotely. It cannot directly access files on your personal computer or your local Ollama installation.
 
-## Local setup (Windows CMD)
+## 🔗 Project Links
 
-```bat
-conda create -n slothsort python=3.11.10 -y
-conda activate slothsort
-cd path\to\slothsort-ai
+- **Live Application:** https://slothsort-ai-latest.onrender.com/
+- **GitHub Repository:** https://github.com/GouravGC/slothsort-ai
+- **Latest Commit:** https://github.com/GouravGC/slothsort-ai/commits/main/
+- **CI/CD Workflows:** https://github.com/GouravGC/slothsort-ai/actions
+- **GitHub Packages (Docker Image):** https://github.com/GouravGC?tab=packages
+
+## ⚙️ CI/CD Pipeline
+
+SlothSort AI uses GitHub Actions to automate testing, containerization, publishing, and deployment.
+
+**Pipeline:** Push to `main` → Install dependencies → Run tests → Build Docker image → Publish to GitHub Container Registry (GHCR) → Trigger Render deployment.
+
+[![CI/CD Pipeline](https://github.com/GouravGC/slothsort-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/GouravGC/slothsort-ai/actions)
+
+View [workflow runs and build logs](https://github.com/GouravGC/slothsort-ai/actions) to inspect the pipeline's latest status.
+
+## ✨ Features
+
+- AI-powered file categorization and filename suggestions
+- Local AI support with Ollama
+- Cloud AI integration through OpenRouter
+- Review suggestions before moving or renaming files
+- Apply approved organization plans
+- Undo supported organization changes
+- Modular Python architecture
+- Automated tests with pytest
+- Docker-based deployment
+- GitHub Actions CI/CD with GHCR and Render
+
+## 🛠️ Tech Stack
+
+- **Language:** Python 3.11
+- **Interface:** Streamlit
+- **AI:** Ollama, OpenRouter
+- **Testing:** pytest
+- **Containerization:** Docker
+- **CI/CD:** GitHub Actions
+- **Container Registry:** GitHub Container Registry (GHCR)
+- **Deployment:** Render
+
+## 🧪 Run Locally
+
+```bash
+git clone https://github.com/GouravGC/slothsort-ai.git
+cd slothsort-ai
+
+python -m venv .venv
+.venv\Scripts\activate
+
 pip install -r requirements.txt
-copy .env.example .env
-ollama pull gemma3:4b
 streamlit run app.py
 ```
 
-Edit `.env` to set `OPENROUTER_API_KEY` if using OpenRouter. Never commit `.env`.
+Configure credentials in your local `.env` file when needed. **Never commit API keys or `.env` secrets.**
 
-## Run tests
+## ✅ Tests
 
-```bat
-set PYTHONPATH=src
-pytest -q
-```
-
-## Docker
-
-Build and run the UI:
+Run the test suite with:
 
 ```bash
-docker build -t slothsort-ai .
-docker run --rm -p 8501:8501 -e DEFAULT_PROVIDER="OpenRouter (Cloud)" -e OPENROUTER_API_KEY="YOUR_KEY" slothsort-ai
+PYTHONPATH=src python -m pytest -q
 ```
 
-For local Ollama from a container, configure `OLLAMA_BASE_URL` to a host-reachable Ollama endpoint. Do not assume `localhost` inside the container points to the host.
+The project's local test suite passed **7 tests** during development.
 
-## Deployment notes
+## 📦 Docker Image
 
-Set `DEFAULT_PROVIDER=OpenRouter (Cloud)` and `OPENROUTER_API_KEY` in your hosting provider's secret settings. The API key must not be placed in source code or exposed to the browser. Choose a model ID that is currently available to your OpenRouter account.
+```bash
+docker pull ghcr.io/gouravgc/slothsort-ai:latest
+```
 
-A hosted deployment cannot access a user's local disk. Cloud-hosted use therefore needs users to upload files or use the local app. The initial version is designed primarily for local folders; treat cloud deployment as a demo unless a separate, secure upload workflow is implemented.
+## 🔐 Safety by Design
 
-## Privacy and safety
+SlothSort AI is designed around human approval: it proposes changes for review before applying them. Cloud AI mode may send filenames and extracted file snippets to the configured provider, so review sensitive data before enabling it.
 
-- Cloud mode sends file names and extracted text snippets to OpenRouter after the user checks the consent box.
-- Test with a disposable folder first.
-- The app never deletes files. Review the plan before applying it.
-- Use only folders you own or have permission to organize.
+## 👨‍💻 Author
 
-## Challenge theme
+**Gourav GC**
 
-**Slow and Steady:** automate the repetitive work of sorting files while keeping the user in control. Open-weight local AI enables private, user-controlled inference and makes the core feature usable without a paid inference API.
+[GitHub Profile](https://github.com/GouravGC) · [Project Repository](https://github.com/GouravGC/slothsort-ai)
