@@ -11,7 +11,7 @@
 
 ## 🔗 Quick Links & Submission Proofs
 
-* **🎥 Video Demo (YouTube):** [Watch Demonstration Link Here](https://youtube.com/...) *(Update with your recording link)*
+* **🎥 Video Demo (YouTube):** [Watch Demonstration Link Here](https://www.youtube.com/watch?v=znfbmLAjET8)
 * **🌐 Live Web App (Render):** [https://slothsort-ai-latest.onrender.com](https://slothsort-ai-latest.onrender.com)
 * **💻 Source Code (GitHub):** [https://github.com/GouravGC/tinysteps-ai](https://github.com/GouravGC/tinysteps-ai)
 * **⚙️ CI/CD Pipeline Runs:** [https://github.com/GouravGC/tinysteps-ai/actions](https://github.com/GouravGC/tinysteps-ai/actions)
