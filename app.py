@@ -1,47 +1,107 @@
+import os
 import streamlit as st
-from src.tinysteps_engine import TinyStepsEngine
 
-st.set_page_config(page_title="TinySteps AI", page_icon="⚡", layout="centered")
+# Ensure PYTHONPATH or direct src import works smoothly
+try:
+    from tinysteps_engine import TinyStepsEngine
+except ImportError:
+    import sys
+    sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
+    from tinysteps_engine import TinyStepsEngine
 
-st.title("⚡ TinySteps AI: Technical Guide & Assistant")
-st.markdown("*Turn overwhelming engineering tasks into structured execution roadmaps.*")
-
-# Sidebar or Top Control for Provider Selection
-provider_choice = st.radio(
-    "Select AI Execution Backend:",
-    ["Ollama (Local)", "OpenRouter (Cloud)"],
-    horizontal=True,
-    help="Choose whether to run locally using Ollama Gemma or via OpenRouter cloud APIs."
+# --- Page Configuration ---
+st.set_page_config(
+    page_title="TinySteps AI",
+    page_icon="⚡",
+    layout="centered"
 )
 
-# Initialize Engine with selected provider
-engine = TinyStepsEngine(provider=provider_choice)
+# --- Header Section ---
+st.title("⚡ TinySteps AI: Technical Guide & Assistant")
+st.caption("Turn overwhelming engineering tasks into structured execution roadmaps.")
 
-with st.form("tinysteps_guide_form"):
-    task_input = st.text_area("What project or programming task are you tackling?", placeholder="e.g., Build a data science pipeline with custom feature engineering")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        time_limit = st.slider("Total Time Available (Minutes)", 10, 240, 60, 10)
-    with col2:
-        energy_level = st.selectbox("Your Current Energy Level", ["Low", "Medium", "High"], 1)
-        
-    submitted = st.form_submit_button("Generate Engineering Blueprint")
+# --- Sidebar Controls ---
+st.sidebar.header("⚙️ Configuration")
+provider_choice = st.sidebar.radio(
+    "Select AI Execution Backend:",
+    ["Ollama (Local)", "OpenRouter (Cloud)"]
+)
 
-if submitted:
+# --- User Inputs ---
+task_input = st.text_area(
+    "What project or programming task are you tackling?",
+    placeholder="e.g., Build and deploy a Machine Learning model pipeline with MLOps tracking..."
+)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    time_limit = st.slider(
+        "Total Time Available (Minutes)",
+        min_value=10,
+        max_value=240,
+        value=120,
+        step=5
+    )
+
+with col2:
+    energy_level = st.select_slider(
+        "Your Current Energy Level",
+        options=["Low", "Medium", "High"],
+        value="High"
+    )
+
+generate_btn = st.button("🚀 Generate Actionable Roadmap", type="primary")
+
+# --- Engine Execution & Output ---
+if generate_btn:
     if not task_input.strip():
-        st.warning("Please enter a valid task description.")
+        st.warning("Please enter a task description before generating the roadmap.")
     else:
-        spinner_msg = f"🧠 Processing blueprint via {provider_choice}..."
-        with st.spinner(spinner_msg):
-            result = engine.breakdown_task(task_input, time_limit, energy_level)
+        with st.spinner("Analyzing task scope, allocating time buffers, and building execution phases..."):
+            # Initialize engine with selected backend provider
+            engine = TinyStepsEngine(provider=provider_choice)
             
-            if "warning" in result:
-                st.warning(result["warning"])
-                
-            st.success(f"🎯 **Objective:** {result.get('task_summary')}")
-            st.info(f"⏳ **Time Budget:** {result.get('total_time_allocated')} mins | **Backend:** {provider_choice} | **Energy:** {energy_level}")
+            # Generate task breakdown
+            result = engine.breakdown_task(
+                task=task_input,
+                time_limit=time_limit,
+                energy_level=energy_level
+            )
+
+        st.success("Roadmap generated successfully!")
+        st.divider()
+
+        # Display Objective Summary Card
+        st.markdown(
+            f"### 🎯 Objective: {result.get('task_summary', task_input)}\n"
+            f"**⏳ Time Budget:** {result.get('total_time_allocated', time_limit)} mins | "
+            f"**Backend:** {result.get('provider_used', provider_choice)} | "
+            f"**Energy Level:** {result.get('energy_level', energy_level)}"
+        )
+
+        st.divider()
+
+        # Render Steps
+        steps = result.get("steps", [])
+        for step in steps:
+            step_num = step.get("step_number", "")
+            title = step.get("title", f"Step {step_num}")
             
-            for step in result.get("steps", []):
-                with st.expander(f"Step {step.get('step_number')}: {step.get('title')} ({step.get('duration_mins')} mins)", expanded=True):
-                    st.markdown(f"**Guidance & Actions:**\n\n{step.get('actionable_instruction')}")
+            # Fallback checks across key name variants
+            mins = (
+                step.get("duration_mins") or 
+                step.get("estimated_minutes") or 
+                step.get("minutes") or 
+                0
+            )
+            guidance = (
+                step.get("guidance") or 
+                step.get("instructions") or 
+                step.get("details") or 
+                "No guidance provided."
+            )
+
+            st.markdown(f"#### Step {step_num}: {title} ({mins} mins)")
+            st.markdown(f"**Guidance & Actions:**\n{guidance}")
+            st.divider()
