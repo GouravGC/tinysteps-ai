@@ -5,9 +5,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class TinyStepsEngine:
-    """Core execution engine for TinySteps AI."""
-    def __init__(self):
-        # engine initialization logic...
+    """Core execution engine for TinySteps AI supporting dual backends."""
+    
+    def __init__(self, provider: str = "Ollama (Local)"):
+        self.provider = provider
+        self.local_model = os.getenv("LOCAL_MODEL_NAME", "gemma3:4b")
+        self.cloud_model = os.getenv("OPENROUTER_MODEL", "openrouter/free")
+        self.base_url = os.getenv("OPENAI_BASE_URL", "http://localhost:11434/v1")
+
+    def generate_roadmap(self, task: str, total_mins: int = 30):
+        """Generates the execution roadmap based on the selected provider."""
+        # Your execution/generation logic here...
         pass
 
     def _generate_expert_fallback(self, task, total_mins, error_msg):
