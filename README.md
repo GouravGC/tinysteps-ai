@@ -46,3 +46,4 @@ tinysteps-ai/
 ├── Dockerfile                  # Production container definition
 ├── requirements.txt            # Python dependencies
 └── README.md                   # Project documentation
+```
