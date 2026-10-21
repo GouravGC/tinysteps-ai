@@ -9,24 +9,24 @@
 
 ---
 
-## 🔗 Quick Links
+## 🔗 Quick Links & Submission Proofs
 
-* **Live Web App:** [https://slothsort-ai-latest.onrender.com](https://slothsort-ai-latest.onrender.com)
-* **Source Code:** [https://github.com/GouravGC/tinysteps-ai](https://github.com/GouravGC/tinysteps-ai)
-* **CI/CD Pipeline Runs:** [https://github.com/GouravGC/tinysteps-ai/actions](https://github.com/GouravGC/tinysteps-ai/actions)
-* **Published Packages:** [https://github.com/GouravGC?tab=packages](https://github.com/GouravGC?tab=packages)
+* **🎥 Video Demo (YouTube):** [Watch Demonstration Link Here](https://youtube.com/...) *(Update with your recording link)*
+* **🌐 Live Web App (Render):** [https://slothsort-ai-latest.onrender.com](https://slothsort-ai-latest.onrender.com)
+* **💻 Source Code (GitHub):** [https://github.com/GouravGC/tinysteps-ai](https://github.com/GouravGC/tinysteps-ai)
+* **⚙️ CI/CD Pipeline Runs:** [https://github.com/GouravGC/tinysteps-ai/actions](https://github.com/GouravGC/tinysteps-ai/actions)
+* **📦 Published Container Packages:** [https://github.com/GouravGC?tab=packages](https://github.com/GouravGC?tab=packages)
 
 ---
 
 ## 🌟 Key Features
 
 * **Dual-Backend AI Engine (`TinyStepsEngine`):**
-  * **Ollama (Local):** Run models locally for privacy and offline usage.
+  * **Ollama (Local):** Run models locally for absolute privacy and offline capability.
   * **OpenRouter (Cloud):** Access scalable, cloud-hosted open-source models seamlessly.
-* **Structured Roadmap Generation:** Breaks down complex, high-level engineering tasks into clear, step-by-step execution phases with estimated time allocations.
-* **Automated Fallback Mechanism:** Includes built-in expert fallback logic to ensure uninterrupted execution roadmaps even during model downtime or API errors.
-* **Streamlit UI:** An intuitive dashboard for selecting backends, inputting tasks, and viewing roadmaps in real time.
-* **Production-Ready CI/CD:** Fully automated testing (`pytest`), Docker containerization, publishing to GitHub Container Registry (GHCR), and continuous deployment on Render.
+* **Dynamic Time & Energy Adaptation:** Automatically sizes and paces execution phases based on your available time budget and energy level (Low, Medium, High).
+* **Streamlit UI Dashboard:** An intuitive, responsive interface for selecting backends, inputting tasks, and viewing structured phases instantly.
+* **Production-Ready CI/CD Pipeline:** Fully automated testing (`pytest`), Docker containerization, publishing to GitHub Container Registry (GHCR), and continuous deployment on Render.
 
 ---
 
