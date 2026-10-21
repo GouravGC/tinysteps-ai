@@ -1,1 +1,0 @@
-"""SlothSort AI: local-first file organization assistant."""
